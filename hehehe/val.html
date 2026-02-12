@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? ❤️</title>
+    <style>
+        body {
+            background-color: #fff0f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        #gif {
+            width: 200px;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #ff4d6d;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        #yesBtn {
+            background-color: #43aa8b;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Celebration hearts */
+        .heart-fall {
+            position: absolute;
+            top: -10%;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-content">
+        <img id="gif" src="1st.gif" alt="Cute Bear">
+        <h1 id="question">Will you be my Valentine? 🌹</h1>
+        
+        <div class="buttons">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const question = document.getElementById('question');
+        const gif = document.getElementById('gif');
+
+        let noCount = 0;
+        const messages = [
+            "No",
+            "Are you sure? 🥺",
+            "Really sure??",
+            "Think about it again!",
+            "Last chance!",
+            "Surely not?",
+            "You might regret this!",
+            "Give it another thought!",
+            "Are you absolutely certain?",
+            "This could be a mistake!",
+            "Have a heart!",
+            "Don't be so cold!",
+            "Change of heart?",
+            "Wouldn't you reconsider?",
+            "Is that your final answer?",
+            "You're breaking my heart ;("
+        ];
+
+        noBtn.addEventListener('click', () => {
+            noCount++;
+            
+            // 1. Change the text of the No button
+            const messageIndex = Math.min(noCount, messages.length - 1);
+            noBtn.innerHTML = messages[messageIndex];
+
+            // 2. Make the Yes button bigger
+            const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            yesBtn.style.fontSize = (currentSize * 1.4) + 'px';
+            yesBtn.style.padding = (currentSize * 0.8) + 'px ' + (currentSize * 1.5) + 'px';
+
+            // 3. Optional: Make the No button slightly smaller
+            const noSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
+            if (noSize > 5) {
+                noBtn.style.fontSize = (noSize * 0.9) + 'px';
+            }
+
+            // 4. Change the gif to a sadder one as it goes
+            if (noCount === 1) gif.src = "2nd.gif";
+            if (noCount === 3) gif.src = "3rd.gif";
+            if (noCount === 5) gif.src = "4th.gif";
+
+        });
+
+        yesBtn.addEventListener('click', () => {
+            document.getElementById('main-content').innerHTML = `
+                <img src="final.gif" alt="Happy">
+                <h1 style="font-size: 3rem;">YAY! I Love You Too!!!! ❤️</h1>
+            `;
+            createHearts();
+        });
+
+        function createHearts() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '❤️';
+                    heart.className = 'heart-fall';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                    document.body.appendChild(heart);
+                }, i * 100);
+            }
+        }
+    </script>
+</body>
+</html>
